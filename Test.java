@@ -6,9 +6,9 @@ public class Test {
 
         heap.insert(3, "3");
         heap.insert(4, "4");
-        heap.insert(2, "2");
-        heap.insert(4, "4");
-        heap.insert(5, "5");
+//        heap.insert(2, "2");
+//        heap.insert(4, "4");
+//        heap.insert(5, "5");
 
         System.out.println(heap);
         System.out.println(heap.size());
