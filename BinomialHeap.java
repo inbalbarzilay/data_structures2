@@ -55,8 +55,7 @@ public class BinomialHeap
 	 * Delete the minimal item
 	 *
 	 */
-	public void deleteMin()
-	{
+	public void deleteMin() {
 		return; // should be replaced by student code
 
 	}
@@ -66,8 +65,7 @@ public class BinomialHeap
 	 * Return the minimal HeapItem, null if empty.
 	 *
 	 */
-	public HeapItem findMin()
-	{
+	public HeapItem findMin() {
 		return this.min.item; // should be replaced by student code
 	} 
 
@@ -78,9 +76,22 @@ public class BinomialHeap
 	 * Decrease the key of item by diff and fix the heap. 
 	 * 
 	 */
-	public void decreaseKey(HeapItem item, int diff) 
-	{    
-		return; // should be replaced by student code
+	public void decreaseKey(HeapItem item, int diff) {
+		item.key -= diff;
+		int key = item.key;
+		HeapNode node = item.node;
+
+		while (node.parent != null && node.parent.item.key > key) {
+			HeapItem tempItem = node.parent.item;
+			node.parent.item = node.item;
+			node.item = tempItem;
+
+			node = node.parent;
+		}
+
+		if (key < this.min.item.key) {
+			this.min = node;
+		}
 	}
 
 	/**
@@ -98,6 +109,7 @@ public class BinomialHeap
 	 * Meld the heap with heap2
 	 *
 	 */
+	// CHECK FOR 3 BINOMIAL TREES WITH SAME RANK
 	public void meld(BinomialHeap heap2) {
 		if (!this.empty() && !heap2.empty()) {
 

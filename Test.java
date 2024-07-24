@@ -15,5 +15,23 @@ public class Test {
         System.out.println(heap.findMin().key);
         System.out.println(heap.empty());
         System.out.println(heap.numTrees());
+
+        //System.out.println(heap.last.child.item.key);
+       // heap.decreaseKey(heap.last.child.item, 2);
+       // System.out.println(heap);
+//System.out.println(heap.findMin().key);
+////
+//        System.out.println(heap.last.child.child.item.key); //4
+//        heap.decreaseKey(heap.last.child.child.item, 3);
+//        System.out.println(heap);
+//        System.out.println(heap.findMin().key);
+
+        System.out.println(heap.last.item.key);
+        heap.decreaseKey(heap.last.item, 1);
+        System.out.println(heap);
+        System.out.println(heap.findMin().key);
+
+
+
     }
 }
