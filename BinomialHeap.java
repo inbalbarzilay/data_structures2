@@ -123,7 +123,6 @@ public class BinomialHeap
 				}
 			} while (node1 != null && node2 != null && node1 != this.last && node2 != heap2.last);
 
-			System.out.println(node1.item.key);
 			node1 = this.last.next;
 
 			while (node1 != null && node1 != this.last) {
@@ -133,8 +132,6 @@ public class BinomialHeap
 					node1 = node1.next;
 				}
 			}
-
-			System.out.println(node1.item.key);
 
 			this.size += heap2.size();
 		}
