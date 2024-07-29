@@ -112,65 +112,23 @@ public class BinomialHeap
 	// CHECK FOR 3 BINOMIAL TREES WITH SAME RANK
 	public void meld(BinomialHeap heap2) {
 		if (!this.empty() && !heap2.empty()) {
-
 			HeapNode node1 = this.last.next;
 			HeapNode node2 = heap2.last.next;
 
-			do {
-				if (node1.rank == node2.rank) {
-					HeapNode node2Next = node2.next;
-					if (node1 != node1.next && node1.next.rank == node1.rank) {
-						if (node1.item.key <= node1.next.item.key && node1.item.key <= node2.item.key) {
-							node1.next = this.link(node1.next, node2, false);
-						} else if (node1.next.item.key <= node1.item.key && node1.next.item.key <= node2.item.key) {
-							HeapNode temp = node1;
-							node1 = node1.next;
-							node1.next = temp;
-							node1.next = this.link(node1.next, node2, false);
-						} else {
-							node1 = this.link(node1, node1.next, true);
-							HeapNode temp = node1.next;
-							node1.next = node2;
-							node1.next.next = temp;
-						}
-					} else if (node2 != node2.next && node2.next.rank == node2.rank) {
-						if (node1.item.key <= node2.item.key && node1.item.key <= node2.next.item.key) {
-							HeapNode newNode = this.link(node2, node2.next, true);
-							HeapNode temp = node1.next;
-							node1.next = newNode;
-							newNode.next = temp;
-						} else if (node2.item.key <= node1.item.key && node2.item.key <= node2.next.item.key) {
-							HeapNode temp = node1;
-							node1 = node2;
-							node1.next = temp.next;
-							node1.next = this.link(node1.next, node2.next, false);
-						} else {
-							HeapNode temp = node1;
-							node1 = node2.next;
-							node1.next = temp.next;
-							node1.next = this.link(node2, node2.next, true);
-						}
-					} else {
-						node1 = this.link(node1, node2, false);
-					}
-
-					if (node2 == node2Next) {
-						break;
-					} else {
-						node2 = node2Next;
-					}
-				} else {
-					if (node1.rank < node2.rank) {
-						node1 = node1.next;
-					} else {
-						if (node2.next == null) {
-							node2 = heap2.last.next;
-						} else {
-							node2 = node2.next;
-						}
-					}
+			while (node1 != this.last && node2 != heap2.last) {
+				if (node1.rank <= node2.rank) {
+					HeapNode temp = node1.next;
+					node1.next = node2;
+					node2.next = temp;
 				}
-			} while (node1 != null && node2 != null && node1 != this.last);
+				node1 = node1.next;
+				node2 = node2.next;
+			}
+
+
+			HeapNode first = this.last.next;
+			this.last.next = node2;
+			heap2.last.next = first;
 
 			node1 = this.last.next;
 
@@ -181,15 +139,105 @@ public class BinomialHeap
 					node1 = node1.next;
 				}
 			}
-
-			this.size += heap2.size();
 		}
+
 
 		if (this.empty()) {
 			this.last = heap2.last;
 			this.min = heap2.min;
 			this.size = heap2.size();
 		}
+
+
+
+//		if (!this.empty() && !heap2.empty()) {
+//
+//			HeapNode node1 = this.last.next;
+//			HeapNode prev = this.last;
+//			HeapNode node2 = heap2.last.next;
+//
+//			do {
+//				if (node1.rank == node2.rank) {
+//					HeapNode node1Next = node1.next;
+//					HeapNode node2Next = node2.next;
+////					if (node1 != node1.next && node1.next.rank == node1.rank) {
+////						if (node1.item.key <= node1.next.item.key && node1.item.key <= node2.item.key) {
+////							node1.next = this.link(node1.next, node2, false);
+////						} else if (node1.next.item.key <= node1.item.key && node1.next.item.key <= node2.item.key) {
+////							HeapNode temp = node1;
+////							node1 = node1.next;
+////							node1.next = temp;
+////							node1.next = this.link(node1.next, node2, false);
+////						} else {
+////							node1 = this.link(node1, node1.next, true);
+////							HeapNode temp = node1.next;
+////							node1.next = node2;
+////							node1.next.next = temp;
+////						}
+////					} else if (node2 != node2.next && node2.next.rank == node2.rank) {
+////						if (node1.item.key <= node2.item.key && node1.item.key <= node2.next.item.key) {
+////							HeapNode newNode = this.link(node2, node2.next, true);
+////							HeapNode temp = node1.next;
+////							node1.next = newNode;
+////							newNode.next = temp;
+////						} else if (node2.item.key <= node1.item.key && node2.item.key <= node2.next.item.key) {
+////							HeapNode temp = node1;
+////							node1 = node2;
+////							node1.next = temp.next;
+////							node1.next = this.link(node1.next, node2.next, false);
+////						} else {
+////							HeapNode temp = node1;
+////							node1 = node2.next;
+////							node1.next = temp.next;
+////							node1.next = this.link(node2, node2.next, true);
+////						}
+////					} else {
+//						HeapNode newNode = this.link(node1, node2, false);
+//						if (prev != node1) {
+//							prev.next = newNode;
+//							newNode.next = node1Next;
+//						}
+//						node1 = newNode;
+////					}
+//
+//					if (node2 == node2Next) {
+//						break;
+//					} else {
+//						node2 = node2Next;
+//					}
+//				} else {
+//					if (node1.rank < node2.rank) {
+//						prev = node1;
+//						node1 = node1.next;
+//					} else {
+//						if (node2.next == null) {
+//							node2 = heap2.last.next;
+//						} else {
+//							node2 = node2.next;
+//						}
+//					}
+//				}
+//			} while (node1 != null && node2 != null && node1 != this.last);
+//
+//			node1 = this.last.next;
+//
+//			while (node1 != null && node1 != this.last) {
+//				if (node1.rank == node1.next.rank) {
+//					node1 = this.link(node1, node1.next, true);
+//				} else {
+//					prev = node1;
+//					node1 = node1.next;
+//				}
+//			}
+//
+//			this.size += heap2.size();
+//		}
+//
+//		if (this.empty()) {
+//			this.last = heap2.last;
+//			this.min = heap2.min;
+//			this.size = heap2.size();
+//		}
 	}
 
 	public HeapNode link(HeapNode node1, HeapNode node2, boolean isSameHeap) {
@@ -215,8 +263,6 @@ public class BinomialHeap
 				this.last = node2;
 			}
 
-
-
 			return node2;
 		} else {
 			if (isSameHeap) {
@@ -241,8 +287,7 @@ public class BinomialHeap
 	 * Return the number of elements in the heap
 	 *   
 	 */
-	public int size()
-	{
+	public int size() {
 		return this.size; // should be replaced by student code
 	}
 
@@ -252,8 +297,7 @@ public class BinomialHeap
 	 * is empty.
 	 *   
 	 */
-	public boolean empty()
-	{
+	public boolean empty() {
 		return this.size == 0; // should be replaced by student code
 	}
 
