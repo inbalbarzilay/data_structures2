@@ -4,13 +4,30 @@ public class Test {
         BinomialHeap heap = new BinomialHeap();
         System.out.println(heap.empty());
 
-        heap.insert(3, "3");
-        heap.insert(4, "4");
-        heap.insert(2, "2");
-        heap.insert(4, "4");
+        heap.insert(14, "14");
         heap.insert(5, "5");
+        heap.insert(29, "29");
+//        heap.insert(4, "4_1");
+//        heap.insert(5, "5");
 
         System.out.println(heap);
+        System.out.println(heap.size());
+        System.out.println(heap.findMin().key);
+        System.out.println(heap.empty());
+        System.out.println(heap.numTrees());
+
+        BinomialHeap heap2 = new BinomialHeap();
+        heap2.insert(9, "9_2");
+        heap2.insert(10, "10_2");
+        heap2.insert(7, "7_2");
+//        heap2.insert(49, "49_2");
+//        heap2.insert(80, "80_2");
+
+        System.out.println(heap2);
+
+        heap.meld(heap2);
+        System.out.println(heap);
+
         System.out.println(heap.size());
         System.out.println(heap.findMin().key);
         System.out.println(heap.empty());
@@ -26,10 +43,10 @@ public class Test {
 //        System.out.println(heap);
 //        System.out.println(heap.findMin().key);
 
-        System.out.println(heap.last.item.key);
-        heap.decreaseKey(heap.last.item, 1);
-        System.out.println(heap);
-        System.out.println(heap.findMin().key);
+//        System.out.println(heap.last.item.key);
+//        heap.decreaseKey(heap.last.item, 1);
+//        System.out.println(heap);
+//        System.out.println(heap.findMin().key);
 
 
 

@@ -118,22 +118,59 @@ public class BinomialHeap
 
 			do {
 				if (node1.rank == node2.rank) {
-					HeapNode newNode = this.link(node1, node2, false);
-					if (newNode.item.key == node1.item.key) {
-						node1 = newNode;
-						node2 = node2.next;
+					HeapNode node2Next = node2.next;
+					if (node1 != node1.next && node1.next.rank == node1.rank) {
+						if (node1.item.key <= node1.next.item.key && node1.item.key <= node2.item.key) {
+							node1.next = this.link(node1.next, node2, false);
+						} else if (node1.next.item.key <= node1.item.key && node1.next.item.key <= node2.item.key) {
+							HeapNode temp = node1;
+							node1 = node1.next;
+							node1.next = temp;
+							node1.next = this.link(node1.next, node2, false);
+						} else {
+							node1 = this.link(node1, node1.next, true);
+							HeapNode temp = node1.next;
+							node1.next = node2;
+							node1.next.next = temp;
+						}
+					} else if (node2 != node2.next && node2.next.rank == node2.rank) {
+						if (node1.item.key <= node2.item.key && node1.item.key <= node2.next.item.key) {
+							HeapNode newNode = this.link(node2, node2.next, true);
+							HeapNode temp = node1.next;
+							node1.next = newNode;
+							newNode.next = temp;
+						} else if (node2.item.key <= node1.item.key && node2.item.key <= node2.next.item.key) {
+							HeapNode temp = node1;
+							node1 = node2;
+							node1.next = temp.next;
+							node1.next = this.link(node1.next, node2.next, false);
+						} else {
+							HeapNode temp = node1;
+							node1 = node2.next;
+							node1.next = temp.next;
+							node1.next = this.link(node2, node2.next, true);
+						}
 					} else {
-						node2 = newNode;
-						node1 = node1.next;
+						node1 = this.link(node1, node2, false);
+					}
+
+					if (node2 == node2Next) {
+						break;
+					} else {
+						node2 = node2Next;
 					}
 				} else {
 					if (node1.rank < node2.rank) {
 						node1 = node1.next;
 					} else {
-						node2 = node2.next;
+						if (node2.next == null) {
+							node2 = heap2.last.next;
+						} else {
+							node2 = node2.next;
+						}
 					}
 				}
-			} while (node1 != null && node2 != null && node1 != this.last && node2 != heap2.last);
+			} while (node1 != null && node2 != null && node1 != this.last);
 
 			node1 = this.last.next;
 
@@ -177,6 +214,8 @@ public class BinomialHeap
 			if (isLast) {
 				this.last = node2;
 			}
+
+
 
 			return node2;
 		} else {
