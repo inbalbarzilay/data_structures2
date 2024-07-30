@@ -102,8 +102,7 @@ public class BinomialHeap
 	 * Delete the item from the heap.
 	 *
 	 */
-	public void delete(HeapItem item) 
-	{    
+	public void delete(HeapItem item) {
 		return; // should be replaced by student code
 	}
 
@@ -112,7 +111,6 @@ public class BinomialHeap
 	 * Meld the heap with heap2
 	 *
 	 */
-	// CHECK FOR 3 BINOMIAL TREES WITH SAME RANK
 	public void meld(BinomialHeap heap2) {
 		if (!this.empty() && !heap2.empty()) {
 			int lenHeap1 = this.last.rank;
