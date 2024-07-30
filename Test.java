@@ -25,8 +25,8 @@ public class Test {
 
         heap2.print();
 
-        heap.meld(heap2);
-        heap.print();
+//        heap.meld(heap2);
+//        heap.print();
 
 //
 //        System.out.println(heap.size());

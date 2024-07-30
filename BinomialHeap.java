@@ -117,21 +117,49 @@ public class BinomialHeap
 		if (!this.empty() && !heap2.empty()) {
 			HeapNode node1 = this.last.next;
 			HeapNode node2 = heap2.last.next;
-			HeapNode newLastNode = new HeapNode(this.last.item, this.last.child, null, null);
+			HeapNode dummy = new HeapNode(null, null, null, null);
+			HeapNode result = dummy;
 
-			while (node1 != this.last && node2 != heap2.last) {
+			do {
 				if (node1.rank <= node2.rank) {
-					HeapNode temp = node1.next;
-					node1.next = node2;
-					node2.next = temp;
+					result.next = node1;
+					node1 = node1.next;
+				} else {
+					result.next = node2;
+					node2 = node2.next;
 				}
-				node1 = node1.next;
-				node2 = node2.next;
+				result = result.next;
+			} while (node1 != this.last && node2 != heap2.last);
+
+			HeapNode last = null;
+			if (node1 == this.last) {
+				if (node1.rank <= node2.rank) {
+					result.next = node1;
+					node1.next = node2;
+					last = heap2.last;
+					heap2.last.next = dummy;
+				} else {
+					result.next = node2;
+					heap2.last.next = node1;
+					last = this.last;
+					this.last.next = dummy;
+				}
+			} else {
+				if (node1.rank <= node2.rank) {
+					result.next = node1;
+					this.last.next = node2;
+					last = heap2.last;
+					heap2.last.next = dummy;
+				} else {
+					result.next = node2;
+					node2.next = node1;
+					last = this.last;
+					this.last.next = dummy;
+				}
 			}
 
-			HeapNode first = this.last.next;
-			this.last.next = node2;
-			heap2.last.next = first;
+			this.last = last;
+			this.last.next = dummy.next;
 
 			node1 = this.last.next;
 			HeapNode prev = this.last;
@@ -139,9 +167,13 @@ public class BinomialHeap
 			while (node1 != null && node1 != this.last) {
 				if (node1.rank == node1.next.rank) {
 					if (prev == node1.next) {
-						prev = node1;
+						if (node1.item.key <= node1.next.item.key) prev = node1;
+						else prev = node1.next;
 					}
+
 					HeapNode nodeNext = node1.next.next;
+					if (nodeNext == node1 && node1.item.key > node1.next.item.key) nodeNext = node1.next.next.next;
+
 					HeapNode newNode = this.link(node1, node1.next);
 					prev.next = newNode;
 					newNode.next = nodeNext;
