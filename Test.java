@@ -10,23 +10,24 @@ public class Test {
         heap.insert(4, "4_1");
         heap.insert(5, "5_1");
 
-        System.out.println(heap);
-        System.out.println(heap.size());
-        System.out.println(heap.findMin().key);
-        System.out.println(heap.empty());
-        System.out.println(heap.numTrees());
+        heap.print();
+        System.out.println("size: " + heap.size());
+        System.out.println("min: " + heap.findMin().key);
+        System.out.println("is empty: " + heap.empty());
+        System.out.println("tree num: " + heap.numTrees());
 
         BinomialHeap heap2 = new BinomialHeap();
         heap2.insert(9, "9_2");
         heap2.insert(10, "10_2");
         heap2.insert(7, "7_2");
         heap2.insert(49, "49_2");
-//        heap2.insert(80, "80_2");
+        heap2.insert(80, "80_2");
 
-        System.out.println(heap2);
-////
-//        heap.meld(heap2);
-//        System.out.println(heap);
+        heap2.print();
+
+        heap.meld(heap2);
+        heap.print();
+
 //
 //        System.out.println(heap.size());
 //        System.out.println(heap.findMin().key);
