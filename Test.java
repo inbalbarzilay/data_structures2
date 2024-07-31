@@ -11,7 +11,7 @@ public class Test {
         int len1 = new Random().nextInt(1, 15);
         int len2 = new Random().nextInt(1, 10);
 
-        int[] arr1 = IntStream.generate(() -> new Random().nextInt(1, 100)).limit(len1).toArray();
+        int[] arr1 = {22, 58, 21};//IntStream.generate(() -> new Random().nextInt(1, 100)).limit(len1).toArray();
         int[] arr2 = IntStream.generate(() -> new Random().nextInt(1, 100)).limit(len2).toArray();
 
         int nodeIndex = new Random().nextInt(arr1.length);
@@ -26,22 +26,23 @@ public class Test {
         }
 
         System.out.println(heap);
-//        heap.deleteMin();
-//        System.out.println("new heap");
-//        System.out.println(heap);
-
-        System.out.println("size: " + heap.size());
-        System.out.println(node.item.key);
-        heap.delete(node.item);
+        heap.deleteMin();
+        System.out.println("new heap");
         System.out.println(heap);
-        System.out.println("size: " + heap.size());
-        if (heap.findMin() != null) {
-            System.out.println("min: " + heap.findMin().key);
-        } else {
-            System.out.println("min is empty");
-        }
-        System.out.println("is empty: " + heap.empty());
-        System.out.println("tree num: " + heap.numTrees());
+        System.out.println(heap.findMin().key);
+
+//        System.out.println("size: " + heap.size());
+//        System.out.println(node.item.key);
+//        heap.delete(node.item);
+//        System.out.println(heap);
+//        System.out.println("size: " + heap.size());
+//        if (heap.findMin() != null) {
+//            System.out.println("min: " + heap.findMin().key);
+//        } else {
+//            System.out.println("min is empty");
+//        }
+//        System.out.println("is empty: " + heap.empty());
+//        System.out.println("tree num: " + heap.numTrees());
 
 //
 ////        heap.insert(14, "14");
