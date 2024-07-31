@@ -8,8 +8,8 @@ public class Test {
         BinomialHeap heap = new BinomialHeap();
         System.out.println(heap.empty());
 
-        int [] arr1 = IntStream.generate(() -> new Random().nextInt(1,100)).limit(10).toArray();
-        int [] arr2 = IntStream.generate(() -> new Random().nextInt(1,100)).limit(10).toArray();
+        int [] arr1 = IntStream.generate(() -> new Random().nextInt(1,100)).limit(20).toArray();
+        int [] arr2 = IntStream.generate(() -> new Random().nextInt(1,100)).limit(20).toArray();
 
         System.out.println(Arrays.toString(arr1));
         for (int j : arr1) {
@@ -28,7 +28,8 @@ public class Test {
 //        heap.insert(7, "7");
 //        heap.insert(1, "1");
 
-        heap.print();
+//        heap.print();
+        System.out.println(heap);
         System.out.println("size: " + heap.size());
         System.out.println("min: " + heap.findMin().key);
         System.out.println("is empty: " + heap.empty());
@@ -47,12 +48,14 @@ public class Test {
 //        heap2.insert(49, "49_2");
 //        heap2.insert(80, "80_2");
 //        heap2.insert(70, "70_2");
+//        heap2.insert(11, "11_2");
 
-        heap2.print();
-
+//        heap2.print();
+        System.out.println(heap2);
         System.out.println("------------------------------------------");
         heap.meld(heap2);
-        heap.print();
+//        heap.print();
+        System.out.println(heap);
         System.out.println("size: " + heap.size());
         System.out.println("min: " + heap.findMin().key);
         System.out.println("is empty: " + heap.empty());

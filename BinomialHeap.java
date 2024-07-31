@@ -1,6 +1,3 @@
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * BinomialHeap
  *
@@ -320,54 +317,47 @@ public class BinomialHeap
 	}
 
 	//DELETE LATER
-	public void print() {
-		{
-			if (this.empty()) {
-				System.out.println("Heap is empty");
-				return;
-			}
-			int s;
-			if(this.last.rank == 0){s = 1;}
-			else if(this.last.rank == 1){s = 2;}
-			else if(this.last.rank == 2){s = 3;}
-			else {
-				s = (int) Math.pow(2, this.last.rank - 1);
-			}
-			int[][][] answer = new int[this.numTrees()][s][s];
-			BinomialHeap.HeapNode curr_tree = this.last.next;
-			for (int k = 0; k < this.numTrees(); k++ ) {
-				Set<HeapNode> dic = new HashSet<>();
-				this.print_rec(curr_tree, 0, 0, dic, answer, k);
-				curr_tree = curr_tree.next;
-			}
-			int x = 0;
-			for (int i = 0; i < answer[x].length; i++) {
-				for (int j = 0; j < answer[x].length; j++) {
-					if(answer[x][i][j] != 0) {
-						System.out.print(answer[x][i][j] + " ");
-					}
-					else{System.out.print("  ");}
-					if(x == answer.length-1 && j == answer[x].length-1) {break;}
-					if(j == answer[x].length-1) {
-						if (x + 1 < answer.length) {x += 1;}
-						j = -1;
-					}
+	@Override
+	public String toString() {
+		if (this.empty()) {
+			return "Heap is empty";
+		}
 
-				}
-				System.out.println();
-				x = 0;
+		StringBuilder sb = new StringBuilder();
+		sb.append("BinomialHeap\n");
+
+		HeapNode current = this.last;
+		do {
+			if (current != null) {
+				sb.append("Tree with root: ").append(current.toString()).append("\n");
+				appendTree(sb, current, "", true);
+				current = current.next;
 			}
+		} while (current != this.last);
+
+		return sb.toString();
+	}
+
+	private void appendTree(StringBuilder sb, HeapNode node, String indent, boolean last) {
+		if (node == null) return;
+
+		sb.append(indent);
+		if (last) {
+			sb.append("└── ");
+			indent += "    ";
+		} else {
+			sb.append("├── ");
+			indent += "│   ";
+		}
+		sb.append(node.toString()).append("\n");
+
+		if (node.child != null) {
+			HeapNode child = node.child;
+			do {
+				appendTree(sb, child, indent, child.next == node.child);
+				child = child.next;
+			} while (child != node.child);
 		}
 	}
-	public void print_rec(BinomialHeap.HeapNode first, int depth, int x, Set<BinomialHeap.HeapNode> dic, int[][][] answer, int num_in_row) {
-		if (dic.contains(first)){return;}
-		dic.add(first);
-		answer[num_in_row][depth][x] = first.item.key;
-		if(depth != 0) {
-			print_rec(first.next, depth, x + 1, dic, answer, num_in_row);
-		}
-		if(first.child != null){
-			print_rec(first.child.next,depth+1,x,dic,answer, num_in_row);
-		}
-	}
+
 }
