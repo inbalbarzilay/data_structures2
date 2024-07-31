@@ -56,8 +56,73 @@ public class BinomialHeap
 	 *
 	 */
 	public void deleteMin() {
-		return; // should be replaced by student code
+		HeapNode min = this.min;
 
+		if (this.numTrees() == 1) {
+			this.last = min.child;
+
+			if (min.child == null) {
+				this.size = 0;
+				this.min = null;
+			} else {
+				this.min = this.last;
+				HeapNode node = this.last.next;
+
+				while (node != this.last) {
+					if (this.min.item.key > node.item.key) {
+						this.min = node;
+					}
+					node = node.next;
+				}
+			}
+		} else {
+			BinomialHeap childHeap = new BinomialHeap();
+			HeapNode child = min.firstChild;
+
+			int childHeapSize = 0;
+			while (child != min.lastChild) {
+				if (child != null) {
+					child.parent = null;
+					childHeapSize += (int) Math.pow(2, child.rank);
+
+					if (childHeap.min == null || childHeap.min.item.key > child.item.key) {
+						childHeap.min = child;
+					}
+
+					child = child.next;
+				}
+			}
+
+			if (child != null ) {
+				child.parent = null;
+				childHeapSize += (int) Math.pow(2, child.rank);
+
+				if (childHeap.min == null || childHeap.min.item.key > child.item.key) {
+					childHeap.min = child;
+				}
+			}
+
+			childHeap.last = child;
+			childHeap.size = childHeapSize;
+
+			boolean isLast = this.min == this.last;
+			HeapNode minNext = min.next;
+			HeapNode minPrev = min;
+			HeapNode node = min.next;
+
+			while (node != min) {
+				minPrev = node;
+				node = node.next;
+			}
+
+			if (isLast) {
+				this.last = minPrev;
+			}
+			minPrev.next = minNext;
+
+			this.meld(childHeap);
+			this.size -= childHeapSize;
+		}
 	}
 
 	/**
@@ -66,8 +131,11 @@ public class BinomialHeap
 	 *
 	 */
 	public HeapItem findMin() {
-		return this.min.item; // should be replaced by student code
-	} 
+		if (this.min != null) {
+			return this.min.item;
+		}
+		return null;
+	}
 
 	/**
 	 * 
@@ -100,7 +168,11 @@ public class BinomialHeap
 	 *
 	 */
 	public void delete(HeapItem item) {
-		return; // should be replaced by student code
+		this.decreaseKey(item, item.key);
+		this.deleteMin();
+		if (this.size > 0) {
+			this.size--;
+		}
 	}
 
 	/**
@@ -176,9 +248,13 @@ public class BinomialHeap
 				if (result[i] != null) {
 					if (first == null) {
 						first = result[i];
+						this.min = result[i];
 					}
 					if (prev != null) {
 						prev.next = result[i];
+					}
+					if (this.min.item.key > result[i].item.key) {
+						this.min = result[i];
 					}
 					prev = result[i];
 				}
@@ -188,7 +264,6 @@ public class BinomialHeap
 			this.last.next = first;
 			this.size += heap2.size();
 		}
-
 
 		if (this.empty()) {
 			this.last = heap2.last;
@@ -214,6 +289,7 @@ public class BinomialHeap
 		} else {
 			node1.lastChild.next = node2;
 			node1.lastChild = node2;
+			node1.child = node1.lastChild;
 			node2.next = node1.firstChild;
 		}
 
@@ -255,19 +331,12 @@ public class BinomialHeap
 			return 0;
 		}
 
-		int size = this.size;
-		int[] binary = new int[(int) (Math.log(size) / Math.log(2)) + 1];
-		int numTrees = 0;
-		int i;
-
-		for (i = 0; size > 0; i++) {
-			size /= 2;
-			binary[i] = size % 2;
-
-			if (binary[i] == 1)
-				numTrees++;
+		int numTrees = 1;
+		HeapNode node = this.last;
+		while (node.next != this.last) {
+			numTrees++;
+			node = node.next;
 		}
-
 		return numTrees; // should be replaced by student code
 	}
 
