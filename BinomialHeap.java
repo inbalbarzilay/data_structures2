@@ -6,8 +6,6 @@
  */
 public class BinomialHeap
 {
-	public static int linkCount = 0;
-	public static int deletedRankSum = 0;
 	public int size;
 	public HeapNode last;
 	public HeapNode min;
@@ -59,7 +57,6 @@ public class BinomialHeap
 	 */
 	public void deleteMin() {
 		HeapNode min = this.min;
-		deletedRankSum += this.min.rank;
 
 		if (this.numTrees() == 1) {
 			this.last = min.child;
@@ -310,8 +307,6 @@ public class BinomialHeap
 		if (this.min.item.key > node1.item.key) {
 			this.min = node1;
 		}
-
-		linkCount++;
 
 		return node1;
 	}
