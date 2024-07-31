@@ -7,11 +7,13 @@
 public class BinomialHeap
 {
 	public int size;
+	public int numTrees;
 	public HeapNode last;
 	public HeapNode min;
 
 	public BinomialHeap() {
 		this.size = 0;
+		this.numTrees = 0;
 		this.last = null;
 		this.min = null;
 	}
@@ -21,6 +23,7 @@ public class BinomialHeap
 	 * pre: key > 0
 	 *
 	 * Insert (key,info) into the heap and return the newly generated HeapItem.
+	 * Complexity: O(logn)
 	 *
 	 */
 	public HeapItem insert(int key, String info) {
@@ -33,6 +36,7 @@ public class BinomialHeap
 		heap0.last.next = node;
 		heap0.min = node;
 		heap0.size++;
+		heap0.numTrees++;
 
 		if (this.empty() || this.last.next.rank == 0) {
 			this.meld(heap0);
@@ -45,6 +49,7 @@ public class BinomialHeap
 				this.min = node;
 			}
 			this.size++;
+			this.numTrees++;
 		}
 
 		return item; // should be replaced by student code
@@ -53,9 +58,14 @@ public class BinomialHeap
 	/**
 	 * 
 	 * Delete the minimal item
+	 * Complexity: O(logn)
 	 *
 	 */
 	public void deleteMin() {
+		if (this.empty()) {
+			return;
+		}
+
 		HeapNode min = this.min;
 
 		if (this.numTrees() == 1) {
@@ -63,19 +73,29 @@ public class BinomialHeap
 
 			if (min.child == null) {
 				this.size = 0;
+				this.numTrees = 0;
 				this.min = null;
 			} else {
 				this.min = this.last;
+				this.size = 0;
+				this.numTrees = 0;
 				HeapNode node = this.last.next;
 
 				while (node != this.last) {
 					if (this.min.item.key > node.item.key) {
 						this.min = node;
 					}
+					this.size += (int) Math.pow(2, node.rank);
+					this.numTrees++;
 					node = node.next;
 				}
+
+				this.size += (int) Math.pow(2, node.rank);
+				this.numTrees++;
 			}
 		} else {
+			if (min.child == null) this.numTrees--;
+
 			BinomialHeap childHeap = new BinomialHeap();
 			HeapNode child = min.firstChild;
 
@@ -93,7 +113,7 @@ public class BinomialHeap
 				}
 			}
 
-			if (child != null ) {
+			if (child != null) {
 				child.parent = null;
 				childHeapSize += (int) Math.pow(2, child.rank);
 
@@ -130,13 +150,14 @@ public class BinomialHeap
 			}
 
 			this.meld(childHeap);
-			this.size -= childHeapSize;
+			this.size -= childHeapSize + 1;
 		}
 	}
 
 	/**
 	 * 
 	 * Return the minimal HeapItem, null if empty.
+	 * Complexity: O(1)
 	 *
 	 */
 	public HeapItem findMin() {
@@ -150,43 +171,47 @@ public class BinomialHeap
 	 * 
 	 * pre: 0<diff<item.key
 	 * 
-	 * Decrease the key of item by diff and fix the heap. 
+	 * Decrease the key of item by diff and fix the heap.
+	 * Complexity: O(logn)
 	 * 
 	 */
 	public void decreaseKey(HeapItem item, int diff) {
-		item.key -= diff;
-		int key = item.key;
-		HeapNode node = item.node;
+		if (!this.empty()) {
+			item.key -= diff;
+			int key = item.key;
+			HeapNode node = item.node;
 
-		while (node.parent != null && node.parent.item.key > key) {
-			HeapItem tempItem = node.parent.item;
-			node.parent.item = node.item;
-			node.item = tempItem;
+			while (node.parent != null && node.parent.item.key > key) {
+				HeapItem tempItem = node.parent.item;
+				node.parent.item = node.item;
+				node.item = tempItem;
 
-			node = node.parent;
-		}
+				node = node.parent;
+			}
 
-		if (key < this.min.item.key) {
-			this.min = node;
+			if (key < this.min.item.key) {
+				this.min = node;
+			}
 		}
 	}
 
 	/**
 	 * 
 	 * Delete the item from the heap.
+	 * Complexity: O(logn)
 	 *
 	 */
 	public void delete(HeapItem item) {
-		this.decreaseKey(item, item.key);
-		this.deleteMin();
-		if (this.size > 0) {
-			this.size--;
+		if (!this.empty()) {
+			this.decreaseKey(item, item.key);
+			this.deleteMin();
 		}
 	}
 
 	/**
 	 * 
 	 * Meld the heap with heap2
+	 * Complexity: O(logn)
 	 *
 	 */
 	public void meld(BinomialHeap heap2) {
@@ -252,6 +277,8 @@ public class BinomialHeap
 
 			HeapNode first = result[0];
 			HeapNode prev = result[0];
+			this.numTrees = result[0] != null ? 1 : 0;
+
 			int i = 1;
 			while (i < result.length) {
 				if (result[i] != null) {
@@ -266,6 +293,7 @@ public class BinomialHeap
 						this.min = result[i];
 					}
 					prev = result[i];
+					this.numTrees++;
 				}
 				i++;
 			}
@@ -278,10 +306,24 @@ public class BinomialHeap
 			this.last = heap2.last;
 			this.min = heap2.min;
 			this.size = heap2.size();
+			this.numTrees = heap2.numTrees();
 		}
 	}
 
+	/**
+	 *
+	 * Link trees with roots node1 and node2
+	 * Complexity: O(1)
+	 *
+	 */
 	private HeapNode link(HeapNode node1, HeapNode node2) {
+		if (node1 == null) {
+			return node2;
+		}
+		if (node2 == null) {
+			return node1;
+		}
+
 		if (node1.item.key > node2.item.key) {
 			HeapNode temp = node1;
 			node1 = node2;
@@ -314,6 +356,7 @@ public class BinomialHeap
 	/**
 	 * 
 	 * Return the number of elements in the heap
+	 * Complexity: O(1)
 	 *   
 	 */
 	public int size() {
@@ -324,6 +367,7 @@ public class BinomialHeap
 	 * 
 	 * The method returns true if and only if the heap
 	 * is empty.
+	 * Complexity: O(1)
 	 *   
 	 */
 	public boolean empty() {
@@ -333,20 +377,11 @@ public class BinomialHeap
 	/**
 	 * 
 	 * Return the number of trees in the heap.
+	 * Complexity: O(1)
 	 * 
 	 */
 	public int numTrees() {
-		if (this.empty()) {
-			return 0;
-		}
-
-		int numTrees = 1;
-		HeapNode node = this.last;
-		while (node.next != this.last) {
-			numTrees++;
-			node = node.next;
-		}
-		return numTrees; // should be replaced by student code
+		return this.numTrees;
 	}
 
 	/**
@@ -372,6 +407,7 @@ public class BinomialHeap
 			this.rank = 0;
 		}
 
+		//DELETE LATER
 		@Override
 		public String toString() {
 			return "(" + this.item.key + ": " + this.item.info + ")";

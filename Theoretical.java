@@ -21,8 +21,8 @@ public class Theoretical {
         long stopTime = System.currentTimeMillis();
 
         System.out.println(stopTime - startTime);
-        System.out.println(BinomialHeap.linkCount);
+//        System.out.println(BinomialHeap.linkCount);
         System.out.println(heap.numTrees());
-        System.out.println(BinomialHeap.deletedRankSum);
+//        System.out.println(BinomialHeap.deletedRankSum);
     }
 }
