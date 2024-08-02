@@ -5,18 +5,18 @@ import java.util.List;
 public class Theoretical {
     public static void main(String[] args) {
         BinomialHeap heap = new BinomialHeap();
-        int i = 5;
+        int i = 3;
         int n = (int) Math.pow(3, i + 7) - 1;
 
         long startTime = System.currentTimeMillis();
 
-        for (int j = n; j > 0; j--) {
+        for (int j = 1; j <= n; j++) {
             heap.insert(j, String.valueOf(j) + "_1");
         }
 
-        for (int j = (int) Math.pow(2, 5) - 1; j < n; j++) {
-            heap.deleteMin();
-        }
+//        for (int j = (int) Math.pow(2, 5) - 1; j < n; j++) {
+//            heap.deleteMin();
+//        }
 
         long stopTime = System.currentTimeMillis();
 

@@ -67,12 +67,12 @@ public class Test {
 //        System.out.println("is empty: " + heap.empty());
 //        System.out.println("tree num: " + heap.numTrees());
 //
-//        BinomialHeap heap2 = new BinomialHeap();
-//        System.out.println(Arrays.toString(arr2));
-//
-//        for (int j : arr2) {
-//            heap2.insert(j, String.valueOf(j) + "_2");
-//        }
+        BinomialHeap heap2 = new BinomialHeap();
+        System.out.println(Arrays.toString(arr2));
+
+        for (int j : arr2) {
+            heap2.insert(j, String.valueOf(j) + "_2");
+        }
 //
 ////        heap2.insert(9, "9_2");
 ////        heap2.insert(10, "10_2");
@@ -89,10 +89,9 @@ public class Test {
 //        System.out.println("is empty: " + heap2.empty());
 //        System.out.println("tree num: " + heap2.numTrees());
 //
-//        System.out.println("------------------------------------------");
-//        heap.meld(heap2);
-////        heap.print();
-//        System.out.println(heap);
+        System.out.println("------------------------------------------");
+        heap.meld(heap2);
+        System.out.println(heap);
 //        System.out.println("size: " + heap.size());
 //        System.out.println("min: " + heap.findMin().key);
 //        System.out.println("is empty: " + heap.empty());

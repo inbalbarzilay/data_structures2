@@ -1,11 +1,19 @@
 /**
+ *
+ * id1      - 212321202
+ * name1    - Inbal Barzilay
+ * id2      - 206479081
+ * name2    - Sharon Shwartzman
+ *
+ */
+
+/**
  * BinomialHeap
  *
  * An implementation of binomial heap over positive integers.
  *
  */
-public class BinomialHeap
-{
+public class BinomialHeap {
 	public int size;
 	public int numTrees;
 	public HeapNode last;
@@ -19,7 +27,7 @@ public class BinomialHeap
 	}
 
 	/**
-	 * 
+	 *
 	 * pre: key > 0
 	 *
 	 * Insert (key,info) into the heap and return the newly generated HeapItem.
@@ -56,7 +64,7 @@ public class BinomialHeap
 	}
 
 	/**
-	 * 
+	 *
 	 * Delete the minimal item
 	 * Complexity: O(logn)
 	 *
@@ -155,7 +163,7 @@ public class BinomialHeap
 	}
 
 	/**
-	 * 
+	 *
 	 * Return the minimal HeapItem, null if empty.
 	 * Complexity: O(1)
 	 *
@@ -168,12 +176,12 @@ public class BinomialHeap
 	}
 
 	/**
-	 * 
+	 *
 	 * pre: 0<diff<item.key
-	 * 
+	 *
 	 * Decrease the key of item by diff and fix the heap.
 	 * Complexity: O(logn)
-	 * 
+	 *
 	 */
 	public void decreaseKey(HeapItem item, int diff) {
 		if (!this.empty()) {
@@ -196,7 +204,7 @@ public class BinomialHeap
 	}
 
 	/**
-	 * 
+	 *
 	 * Delete the item from the heap.
 	 * Complexity: O(logn)
 	 *
@@ -209,7 +217,7 @@ public class BinomialHeap
 	}
 
 	/**
-	 * 
+	 *
 	 * Meld the heap with heap2
 	 * Complexity: O(logn)
 	 *
@@ -354,31 +362,31 @@ public class BinomialHeap
 	}
 
 	/**
-	 * 
+	 *
 	 * Return the number of elements in the heap
 	 * Complexity: O(1)
-	 *   
+	 *
 	 */
 	public int size() {
-		return this.size; // should be replaced by student code
+		return this.size;
 	}
 
 	/**
-	 * 
+	 *
 	 * The method returns true if and only if the heap
 	 * is empty.
 	 * Complexity: O(1)
-	 *   
+	 *
 	 */
 	public boolean empty() {
-		return this.size == 0; // should be replaced by student code
+		return this.size == 0;
 	}
 
 	/**
-	 * 
+	 *
 	 * Return the number of trees in the heap.
 	 * Complexity: O(1)
-	 * 
+	 *
 	 */
 	public int numTrees() {
 		return this.numTrees;
@@ -386,9 +394,9 @@ public class BinomialHeap
 
 	/**
 	 * Class implementing a node in a Binomial Heap.
-	 *  
+	 *
 	 */
-	public static class HeapNode{
+	public static class HeapNode {
 		public HeapItem item;
 		public HeapNode child;
 		public HeapNode firstChild;
@@ -406,19 +414,13 @@ public class BinomialHeap
 			this.parent = parent;
 			this.rank = 0;
 		}
-
-		//DELETE LATER
-		@Override
-		public String toString() {
-			return "(" + this.item.key + ": " + this.item.info + ")";
-		}
 	}
 
 	/**
 	 * Class implementing an item in a Binomial Heap.
-	 *  
+	 *
 	 */
-	public static class HeapItem{
+	public static class HeapItem {
 		public HeapNode node;
 		public int key;
 		public String info;
@@ -429,49 +431,4 @@ public class BinomialHeap
 			this.info = info;
 		}
 	}
-
-	//DELETE LATER
-	@Override
-	public String toString() {
-		if (this.empty()) {
-			return "Heap is empty";
-		}
-
-		StringBuilder sb = new StringBuilder();
-		sb.append("BinomialHeap\n");
-
-		HeapNode current = this.last;
-		do {
-			if (current != null) {
-				sb.append("Tree with root: ").append(current.toString()).append("\n");
-				appendTree(sb, current, "", true);
-				current = current.next;
-			}
-		} while (current != this.last);
-
-		return sb.toString();
-	}
-
-	private void appendTree(StringBuilder sb, HeapNode node, String indent, boolean last) {
-		if (node == null) return;
-
-		sb.append(indent);
-		if (last) {
-			sb.append("└── ");
-			indent += "    ";
-		} else {
-			sb.append("├── ");
-			indent += "│   ";
-		}
-		sb.append(node.toString()).append("\n");
-
-		if (node.child != null) {
-			HeapNode child = node.child;
-			do {
-				appendTree(sb, child, indent, child.next == node.child);
-				child = child.next;
-			} while (child != node.child);
-		}
-	}
-
 }
