@@ -133,6 +133,7 @@ public class BinomialHeap {
 			childHeap.last = child;
 			childHeap.size = childHeapSize;
 
+			// Remove min from heap
 			boolean isLast = this.min == this.last;
 			HeapNode minNext = min.next;
 			HeapNode minPrev = min;
@@ -227,8 +228,8 @@ public class BinomialHeap {
 			int lenHeap1 = this.last.rank;
 			int lenHeap2 = heap2.last.rank;
 
-			HeapNode [] arrHeap1 = new HeapNode[Math.max(lenHeap1, lenHeap2) + 2];
-			HeapNode [] arrHeap2 = new HeapNode[Math.max(lenHeap1, lenHeap2) + 2];
+			HeapNode[] arrHeap1 = new HeapNode[Math.max(lenHeap1, lenHeap2) + 2];
+			HeapNode[] arrHeap2 = new HeapNode[Math.max(lenHeap1, lenHeap2) + 2];
 
 			HeapNode node1 = this.last.next;
 			HeapNode node2 = heap2.last.next;
@@ -244,7 +245,8 @@ public class BinomialHeap {
 				}
 			}
 
-			HeapNode [] result = new HeapNode[Math.max(lenHeap1, lenHeap2) + 2];
+			// Link the heap's trees as done when adding two binary numbers
+			HeapNode[] result = new HeapNode[Math.max(lenHeap1, lenHeap2) + 2];
 			HeapNode carry = null;
 
 			for (int i = 0; i < result.length; i++) {
